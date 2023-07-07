@@ -1,0 +1,38 @@
+---
+- name: Change JBoss EAP root logger level
+  hosts: jboss
+  become: yes
+  vars:
+    jboss_eap_cli_path: /opt/jboss-eap/bin/jboss-cli.sh
+    jboss_eap_root_logger_level: "{{ root_logger_level }}"
+  tasks:
+    - name: Prompt for root logger level
+      ansible.builtin.pause:
+        prompt: "Please enter the desired root logger level (DEBUG, INFO, WARN, ERROR)"
+      register: input
+
+    - name: Set root logger level variable
+      ansible.builtin.set_fact:
+        root_logger_level: "{{ input.user_input }}"
+
+    - name: Read root logger level attribute using CLI command
+      ansible.builtin.cli_command:
+        command: /subsystem=logging/root-logger=ROOT:read-attribute(name=level)
+        provider:
+          cli_path: "{{ jboss_eap_cli_path }}"
+      register: output
+
+    - name: Set previous root logger level variable
+      ansible.builtin.set_fact:
+        previous_root_logger_level: "{{ output.stdout | from_json | json_query('result') }}"
+
+    - name: Change root logger level using CLI command
+      ansible.builtin.cli_config:
+        config: /subsystem=logging/root-logger=ROOT:write-attribute(name=level,value={{ jboss_eap_root_logger_level }})
+        commit: yes
+        provider:
+          cli_path: "{{ jboss_eap_cli_path }}"
+
+    - name: Debug root logger level attribute value
+      ansible.builtin.debug:
+        msg: "The previous root logger level was {{ previous_root_logger_level }}. The current root logger level is {{ jboss_eap_root_logger_level }}."

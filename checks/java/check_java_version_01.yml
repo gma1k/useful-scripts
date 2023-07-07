@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+    - name: Find all Java binaries excluding different filesystems
+      shell: find / -type f -name java 2>/dev/null -not -fstype nfs -and -not -fstype proc -and -not -fstype sysfs -and -not -fstype devpts
+      timeout: "{{ timeout | default(600) }}"
+      register: 'java_files'
+
+    - name: Get the version of each Java binary
+      shell: "{{ item }} -version 2>&1 | grep version | awk '{print $3}' "
+      with_items: "{{ java_files.stdout_lines }}"
+      register: 'java_version'
+
+    - name: Print all stdout values from java_version
+      ansible.builtin.debug:
+        msg: "{{ java_version | json_query('results[*].stdout') }}"
+      when: java_version is defined
+
+    - name: Create a list of each java version and path
+      set_fact:
+        java_list: "{{ java_version.results | map(attribute='stdout') | zip(java_version.results | map(attribute='item')) | list }}"
+
+    - name: Display the list of java version and path
+      debug:
+        var: java_list

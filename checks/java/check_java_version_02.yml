@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: True
+  tasks:
+    - name: Find all Java binaries excluding different filesystems
+      shell: find / -xdev -type f -name "java"
+      register: 'java_files'
+
+    - name: Get the version of each Java binary, hostname and path
+      shell: "{{ item}} -version 2>&1 | grep version | awk '{print $3}' | sed 's/\"//g'"
+      loop: "{{ java_files.stdout_lines }}"
+      register: java_versions
+
+    - name: Report the outputs with hostname, path and version
+      debug:
+        msg: "{{ ansible_hostname }},{{ item.item.item }},{{ item.stdout }}"
+      loop: "{{ java_versions.results | json_query('[?stdout].{stdout: stdout, item: @}') }}"
+
+    - name: Create a list of hostname, path and version for each Java binary in .tsv file
+      set_fact:
+        java_list: "{{ java_list | default([]) +  [ansible_hostname + '\t' +   item.item.item  +  '\t' +  item.stdout] }}"
+      loop: "{{ java_versions.results | json_query('[?stdout].{stdout: stdout, item: @}') }}"
+
+    - name: Store the file in /tmp/ and in own home dir
+      copy:
+        content: "{{ java_list | join('\n') }}"
+        dest: "{{ item }}"
+      loop:
+        - /tmp/java_list.tsv
+        - /home/{{ ansible_user }}/java_list.tsv
