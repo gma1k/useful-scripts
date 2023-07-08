@@ -1,1 +1,1 @@
-![image](https://github.com/gma1k/scripts/assets/138721734/44ba2a9b-cdfc-441b-a4ee-5c98f7856b62)
+![image](https://github.com/gma1k/scripts/assets/138721734/79f84b81-c4d2-4508-923f-23c945c4125a)
