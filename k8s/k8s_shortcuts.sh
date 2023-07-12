@@ -1,12 +1,25 @@
 # Set up autocomplete in bash into the current shell
 source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
 
-# Add autocomplete permanently to your bash shell.
-echo "source <(kubectl completion bash)" >> ~/.bashrc
+# set up autocomplete in zsh into the current shell
+source <(kubectl completion zsh)
+echo '[[ $commands[kubectl] ]] && source <(kubectl completion zsh)' >> ~/.zshrc # add autocomplete permanently to your zsh shell
 
 # kubectl plugins
 alias k=kubectl
 complete -F __start_kubectl k
+
+# Config view 
+alias kcv="kubectl config view"
+alias kcc="kubectl config current-context"
+alias kcu="kubectl config use-context"
+alias kcs="kubectl config set-cluster"
+alias kcsc="kubectl config set-credentials"
+alias kcscn="kubectl config set-context --current --namespace"
+# short alias to set/show context/namespace (only works for bash and bash-compatible shells, current context to be set before using kn to set namespace)
+alias kx='f() { [ "$1" ] && kubectl config use-context $1 || kubectl config current-context ; } ; f'
+alias kn='f() { [ "$1" ] && kubectl config set-context --current --namespace $1 || kubectl config view --minify | grep namespace | cut -d" " -f6 ; } ; f'
 
 # Apply file yaml
 alias kaf='kubectl apply -f'
@@ -97,3 +110,18 @@ alias kgaa='kubectl get all --all-namespaces'
 # Logs
 alias kl='kubectl logs'
 alias klf='kubectl logs -f'
+
+# Replace a resource by filename or stdin
+alias kcr="k replace"
+
+# Update a resource using strategic merge patch
+alias kcp="k patch"
+
+# Expose a resource as a new Kubernetes service
+alias kce="k expose"
+
+# Update the labels on a resource
+alias kcl="k label"
+
+# Set a new size for a Deployment, ReplicaSet, Replication Controller, or StatefulSet
+alias kcs="k scale"
