@@ -1,5 +1,8 @@
-#!/bin/bash
 # Iterate through list of all secrets in AWS Secrets Manager and inject into cluster as k8s secrets
+# USAGE: ./inject_secrets.sh secret_prefix cluster namespace region profile
+# USAGE EXMP: ./inject_secrets.sh myapp/dev foocluster app us-west-2 profilename
+
+#!/bin/bash
 
 if [[ $# -ne 5 ]] ; then
     echo "usage: $0 secret_prefix cluster namespace region profile" >&2
