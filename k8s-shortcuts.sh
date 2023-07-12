@@ -1,6 +1,12 @@
-# kubectl plugins
+# Set up autocomplete in bash into the current shell
+source <(kubectl completion bash)
 
+# Add autocomplete permanently to your bash shell.
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+# kubectl plugins
 alias k=kubectl
+complete -F __start_kubectl k
 
 # Apply file yaml
 alias kaf='kubectl apply -f'
@@ -59,10 +65,21 @@ kres(){
 }
 
 # Rollout management.
-### TODO ...
+alias kru="kubectl rollout undo"
+alias krp="kubectl rollout pause"
+alias krr="kubectl rollout resume"
+alias krh="kubectl rollout history"
+
+# Set the image of a deployment
+alias ksi="kubectl set image"
 
 # Statefulset management.
-### TODO ...
+alias kgs="kubectl get statefulsets"
+alias kgas="kubectl get statefulsets --all-namespaces"
+alias kds="kubectl describe statefulset"
+alias kds="kubectl delete statefulset"
+alias kss="kubectl scale statefulset"
+alias kps="kubectl patch statefulset"
 
 # Node Management
 alias kgno='kubectl get nodes'
