@@ -1,0 +1,99 @@
+# Kubernetes Cheat Sheet
+
+## Cluster and Context
+
+```bash
+# Set the cluster entry in the kubeconfig
+kubectl config set-cluster my-cluster --server=<server-url> --certificate-authority=<ca-file>
+
+# Set the user entry in the kubeconfig
+kubectl config set-credentials <user-name> --client-certificate=<cert-file> --client-key=<key-file>
+
+# Set the context entry in the kubeconfig
+kubectl config set-context my-context --cluster=my-cluster --user=<user-name> --namespace=<namespace>
+
+# Use the context
+kubectl config use-context my-context
+Copy
+Resource: pod
+Operation: get
+# Get all pods in the current namespace
+kubectl get pod
+
+# Get all pods in all namespaces
+kubectl get pod --all-namespaces
+
+# Get a specific pod by name in the current namespace
+kubectl get pod <name>
+
+# Get a specific pod by name in a specific namespace
+kubectl get -n <namespace> <name>
+
+# Describe all pods in the current namespace
+kubectl describe pod
+
+# Describe all pods in all namespaces
+kubectl describe -A <name>
+
+# Describe a specific pod by name in the current namespace
+kubectl describe <name>
+
+# Describe a specific pod by name in a specific namespace
+kubectl describe -n <namespace> <name>
+
+# Create a pod from a YAML file in the current namespace
+kubectl create -f <file.yaml>
+
+# Create a pod from a YAML file in a specific namespace
+kubectl create -n <namespace> -f <file.yaml>
+
+# Create a pod from a JSON file in the current namespace
+kubectl create -f <file.json>
+
+# Create a pod from a JSON file in a specific namespace
+kubectl create -n <namespace> -f <file.json>
+
+# Delete all pods in the current namespace
+kubectl delete pod --all
+
+# Delete all pods in all namespaces
+kubectl delete -A <name>
+
+# Delete a specific pod by name in the current namespace
+kubectl delete <name>
+
+# Delete a specific pod by name in a specific namespace
+kubectl delete -n <namespace> <name>
+
+# Edit a pod by name in the current namespace using the default editor
+kubectl edit pod <name>
+
+# Edit a pod by name in the current namespace using a specific editor
+EDITOR=<editor> kubectl edit pod <name>
+
+# Edit a pod by name in a specific namespace using the default editor
+kubectl edit -n <namespace> <name>
+
+# Apply changes to a pod from a YAML file in the current namespace
+kubectl apply -f <file.yaml>
+
+# Apply changes to a pod from a YAML file in a specific namespace
+kubectl apply -n <namespace> -f <file.yaml>
+
+# Follow the logs of a specific container in a pod by name in the current namespace
+kubectl logs -f <pod-name> -c nginx
+
+# Follow the logs of a specific container in a pod by name in a specific namespace
+kubectl logs -n <namespace> -f <pod-name> -c nginx
+
+# Execute commands in a specific container in a pod by name in the current namespace
+kubectl exec <pod-name> -c nginx -- <command>
+
+# Execute commands in a specific container in a pod by name in a specific namespace
+kubectl exec -n <namespace> <pod-name> -c nginx -- <command>
+
+# Execute commands in a specific container in a pod by name in the current namespace
+kubectl exec <pod-name> -c nginx -- <command>
+
+# Execute commands in a specific container in a pod by name in a specific namespace
+kubectl exec -n <namespace> <pod-name> -c nginx -- <command>
