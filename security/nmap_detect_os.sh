@@ -66,10 +66,10 @@ scan_range $start $end $network
 datetime=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # Create the file name with the date and time
-file_name="ping_scan_results_$datetime.txt"
+file_name="detect_os_results_$datetime.txt"
 
 # Call the scan_range function with the user input and a wildcard for the network prefix and redirect the output to a file
 scan_range $start $end * > $file_name
 
 # Send an email notification with the file as an attachment
-mail -s "Ping scan completed on $datetime" -a $file_name user@example.com < /dev/null
+mail -s "Detect os scan completed on $datetime" -a $file_name user@example.com < /dev/null
