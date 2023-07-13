@@ -6,7 +6,7 @@ list_interfaces() {
   tcpdump -D
 }
 
-# A function to capture a specified number of packets from a specified interface and save them to a file
+# A function to capture packets
 capture_packets() {
   # Use tcpdump -i -c -w to capture packets
   # Use $1, $2, and $3 as the arguments for interface, count, and file name
