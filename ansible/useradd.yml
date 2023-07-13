@@ -1,0 +1,24 @@
+- name: Create user account
+  hosts: all
+  become: true
+
+  vars:
+    users:
+      - name: user
+         password: !vault |
+           $ANSIBLE_VAULT;1.1;AES256
+           
+  tasks:
+    - name: Create user account
+      user:
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        createhome: yes
+      register: output
+      loop: "{{ users }}"
+
+    - name: Add user to group with same name as username
+      user:
+        name: "{{ item.name }}"
+        groups: "{{ results.group + [item.name] }}"
+      loop: "{{ users }}"
