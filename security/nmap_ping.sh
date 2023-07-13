@@ -57,3 +57,15 @@ network=${ip_address%.*}.
 
 # Call the scan_range function with the calculated range
 scan_range $start $end $network
+
+# Get the current date and time in YYYY-MM-DD_HH-MM-SS format
+datetime=$(date +"%Y-%m-%d_%H-%M-%S")
+
+# Create the file name with the date and time
+file_name="ping_scan_results_$datetime.txt"
+
+# Call the scan_range function with the user input and a wildcard for the network prefix and redirect the output to a file
+scan_range $start $end * > $file_name
+
+# Send an email notification with the file as an attachment
+mail -s "Ping scan completed on $datetime" -a $file_name user@example.com < /dev/null
