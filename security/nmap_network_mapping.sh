@@ -27,7 +27,18 @@ mask_to_cidr() {
 nmap_scan() {
   # Use nmap command with -A option for aggressive scan and -sV option for service version detection
   # Use the IP address and CIDR notation as the target range
-  nmap -A -sV "$1/$2"
+  # Use -oG option to output the scan results in grepable format
+  nmap -A -sV "$1/$2" -oG scan_results.txt
+}
+
+# A function to show how many IP addresses are up and down in the scan results
+show_up_down() {
+  # Use grep command to count how many lines contain Up or Down in the scan results file
+  local up_count=$(grep Up scan_results.txt | wc -l)
+  local down_count=$(grep Down scan_results.txt | wc -l)
+  # Print how many IP addresses are up and down
+  echo "$up_count IP addresses are up"
+  echo "$down_count IP addresses are down"
 }
 
 # Main script
@@ -40,6 +51,8 @@ mask=${ip_and_mask#* }
 cidr=$(mask_to_cidr $mask)
 # Perform an aggressive nmap scan based on the IP address and CIDR notation
 nmap_scan $ip $cidr
+# Show how many IP addresses are up and down in the scan results
+show_up_down
 
 # Get the current date and time in YYYY-MM-DD_HH-MM-SS format
 datetime=$(date +"%Y-%m-%d_%H-%M-%S")
