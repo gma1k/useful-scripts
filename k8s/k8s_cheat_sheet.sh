@@ -1,6 +1,6 @@
-# A bash script to generate a kubernetes cheat sheet
-
 #!/bin/bash
+
+# A bash script to generate a kubernetes cheat sheet
 
 # Define some variables
 KUBECTL="kubectl"
@@ -64,22 +64,22 @@ for RESOURCE in "${RESOURCES[@]}"; do
         echo "$KUBECTL get -n <namespace> <name>" >> $CHEAT_SHEET
         ;;
 
-      # Describe commands  
+      # Describe commands
       describe)
         echo "# Describe all ${RESOURCE}s in the current namespace" >> $CHEAT_SHEET
         echo "$KUBECTL describe $RESOURCE" >> $CHEAT_SHEET
         echo "" >> $CHEAT_SHEET
 
         echo "# Describe all ${RESOURCE}s in all namespaces" >> $CHEAT_SHEET
-        echo "$KUBECTL describe -A <name>" >> $CHEAT_SHEET 
+        echo "$KUBECTL describe -A <name>" >> $CHEAT_SHEET
         echo "" >>$ CHEATSHEETS
 
-        echo "# Describe a specific ${RESOURCE} by name in the current namespace" >>$ CHEATSHEETS 
-        echo "$KUBECTL describe <name>"  >$ CHEATSHEETS 
-        echo "" >$ CHEATSHEETS 
+        echo "# Describe a specific ${RESOURCE} by name in the current namespace" >>$ CHEATSHEETS
+        echo "$KUBECTL describe <name>"  >$ CHEATSHEETS
+        echo "" >$ CHEATSHEETS
 
-        echo "# Describe a specific ${RESOURCE} by name in a specific namespace" >$ CHEATSHEETS 
-        echo "$KUBECTL describe -n <namespace> <name>" >$ CHEATSHEETS 
+        echo "# Describe a specific ${RESOURCE} by name in a specific namespace" >$ CHEATSHEETS
+        echo "$KUBECTL describe -n <namespace> <name>" >$ CHEATSHEETS
         ;;
 
       # Create commands
@@ -107,15 +107,15 @@ for RESOURCE in "${RESOURCES[@]}"; do
         echo "" >> $CHEAT_SHEET
 
         echo "# Delete all ${RESOURCE}s in all namespaces" >> $CHEAT_SHEET
-        echo "$KUBECTL delete -A <name>" >> $CHEAT_SHEET 
-        echo "" >$ CHEATSHEETS 
+        echo "$KUBECTL delete -A <name>" >> $CHEAT_SHEET
+        echo "" >$ CHEATSHEETS
 
-        echo "# Delete a specific ${RESOURCE} by name in the current namespace" >$ CHEATSHEETS 
-        echo "$KUBECTL delete <name>"  >$ CHEATSHEETS 
-        echo "" >$ CHEATSHEETS 
+        echo "# Delete a specific ${RESOURCE} by name in the current namespace" >$ CHEATSHEETS
+        echo "$KUBECTL delete <name>"  >$ CHEATSHEETS
+        echo "" >$ CHEATSHEETS
 
-        echo "# Delete a specific ${RESOURCE} by name in a specific namespace" >$ CHEATSHEETS 
-        echo "$KUBECTL delete -n <namespace> <name>" >$ CHEATSHEETS 
+        echo "# Delete a specific ${RESOURCE} by name in a specific namespace" >$ CHEATSHEETS
+        echo "$KUBECTL delete -n <namespace> <name>" >$ CHEATSHEETS
         ;;
 
       # Edit commands
@@ -167,204 +167,104 @@ for RESOURCE in "${RESOURCES[@]}"; do
               echo "# Follow the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
               echo "$KUBECTL logs -n <namespace> -f <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
               echo "" >> $CHEAT_SHEET
-              
+
               # Follow the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
               echo "$KUBECTL logs -n <namespace> -f <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
               echo "" >> $CHEAT_SHEET
 
-              else
+              else # Don't specify a container
 
-             # Generate commands for following logs of a pod by name
-             echo "# Follow the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
-             echo "$KUBECTL logs -f <pod-name>" >> $CHEAT_SHEET
-             echo "" >> $CHEAT_SHEET
+              # Generate commands for following logs of a pod by name
+              echo "# Follow the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs -f <pod-name>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-             echo "# Follow the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
-             echo "$KUBECTL logs -n <namespace> -f <pod-name>" >> $CHEAT_SHEET
-             echo "" >> $CHEAT_SHEET
+              echo "# Follow the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs -n <namespace> -f <pod-name>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-             fi
+              fi
 
-            else
+              else # Don't follow the logs
 
-            # Follow the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
-            echo "$KUBECTL logs -n <namespace> -f <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
-            echo "" >> $CHEAT_SHEET
+              # Ask the user if they want to specify a container or not
+              read -p "Do you want to specify a container? (y/n): " CONTAINER
 
-            else
+              if [ "$CONTAINER" == "y" ]; then # Specify a container
 
-            # Generate commands for following logs of a pod by name
-            echo "# Follow the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
-            echo "$KUBECTL logs -f <pod-name>" >> $CHEAT_SHEET
-            echo "" >> $CHEAT_SHEET
+              # Ask the user for the container name
+              read -p "Enter the container name: " CONTAINER_NAME
 
-            echo "# Follow the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
-            echo "$KUBECTL logs -n <namespace> -f <pod-name>" >> $CHEAT_SHEET
-            echo "" >> $CHEAT_SHEET
+              # Generate commands for printing logs of a specific container in a pod
+              echo "# Print the logs of a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-            fi
+              echo "# Print the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs -n <namespace> <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-            else 
+              else # Don't specify a container
 
-            # Ask the user if they want to specify a container or not
-            read -p "Do you want to specify a container? (y/n): " CONTAINER
+              # Generate commands for printing logs of a pod by name
+              echo "# Print the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs <pod-name>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-            if [ "$CONTAINER" == "y" ]; then # Specify a container
+              echo "# Print the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL logs -n <namespace> <pod-name>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-            # Ask the user for the container name
-            read -p "Enter the container name: " CONTAINER_NAME
+              fi
 
-# Generate commands for printing logs of a specific container in a pod
-echo "# Print the logs of a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              fi
 
-echo "# Print the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs -n <namespace> <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              fi # End of logs commands
+              ;;
 
-else # Don't specify a container
+              # Exec commands
+              exec)
+              if [ "$RESOURCE" == "pod" ]; then # Exec only works for pods and containers
 
-# Generate commands for printing logs of a pod by name
-echo "# Print the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs <pod-name>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              # Ask the user if they want to specify a container or not
+              read -p "Do you want to specify a container? (y/n): " CONTAINER
 
-echo "# Print the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs -n <namespace> <pod-name>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              if [ "$CONTAINER" == "y" ]; then # Specify a container
 
-fi
+              # Ask the user for the container name
+              read -p "Enter the container name: " CONTAINER_NAME
 
-fi
+              # Generate commands for executing commands in a specific container in a pod
+              echo "# Execute commands in a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL exec <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-fi # End of logs commands
-;;
+              echo "# Execute commands in a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL exec -n <namespace> <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-# Exec commands
-exec)
-if [ "$RESOURCE" == "pod" ]; then # Exec only works for pods and containers
+              else # Don't specify a container
 
-# Ask the user if they want to specify a container or not
-read -p "Do you want to specify a container? (y/n): " CONTAINER
+              # Generate commands for executing commands in a pod by name
+              echo "# Execute commands in a pod by name in the current namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL exec <pod-name> -- <command>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-if [ "$CONTAINER" == "y" ]; then # Specify a container
+              echo "# Execute commands in a pod by name in a specific namespace" >> $CHEAT_SHEET
+              echo "$KUBECTL exec -n <namespace> <pod-name> -- <command>" >> $CHEAT_SHEET
+              echo "" >> $CHEAT_SHEET
 
-# Ask the user for the container name
-read -p "Enter the container name: " CONTAINER_NAME
+              fi
 
-# Generate commands for executing commands in a specific container in a pod
-echo "# Execute commands in a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              fi # End of exec commands
+              ;;
 
-echo "# Execute commands in a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec -n <namespace> <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
+              esac # End of case statement
 
-else # Don't specify a container
+                  echo "\`\`\`" >>$ CHEATSHEETS
+                  echo "" >$ CHEATSHEETS
+                done # End of operations loop
+              done # End of resources loop
 
-# Generate commands for executing commands in a pod by name
-echo "# Execute commands in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec <pod-name> -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-echo "# Execute commands in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec -n <namespace> <pod-name> -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-fi
-
-fi # End of exec commands
-;;
-
-esac # End of case statement
-
-    echo "\`\`\`" >>$ CHEATSHEETS 
-    echo "" >$ CHEATSHEETS 
-  done # End of operations loop 
-done # End of resources loop 
-
-# Display the cheat sheet file
-cat $CHEAT_SHEET
-# Ask the user if they want to specify a container or not
-read -p "Do you want to specify a container? (y/n): " CONTAINER
-
-if [ "$CONTAINER" == "y" ]; then # Specify a container
-
-# Ask the user for the container name
-read -p "Enter the container name: " CONTAINER_NAME
-
-# Generate commands for printing logs of a specific container in a pod
-echo "# Print the logs of a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-echo "# Print the logs of a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs -n <namespace> <pod-name> -c $CONTAINER_NAME" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-else # Don't specify a container
-
-# Generate commands for printing logs of a pod by name
-echo "# Print the logs of a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs <pod-name>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-echo "# Print the logs of a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL logs -n <namespace> <pod-name>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-fi
-
-fi
-
-fi # End of logs commands
-;;
-
-# Exec commands
-exec)
-if [ "$RESOURCE" == "pod" ]; then # Exec only works for pods and containers
-
-# Ask the user if they want to specify a container or not
-read -p "Do you want to specify a container? (y/n): " CONTAINER
-
-if [ "$CONTAINER" == "y" ]; then # Specify a container
-
-# Ask the user for the container name
-read -p "Enter the container name: " CONTAINER_NAME
-
-# Generate commands for executing commands in a specific container in a pod
-echo "# Execute commands in a specific container in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-echo "# Execute commands in a specific container in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec -n <namespace> <pod-name> -c $CONTAINER_NAME -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-else # Don't specify a container
-
-# Generate commands for executing commands in a pod by name
-echo "# Execute commands in a pod by name in the current namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec <pod-name> -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-echo "# Execute commands in a pod by name in a specific namespace" >> $CHEAT_SHEET
-echo "$KUBECTL exec -n <namespace> <pod-name> -- <command>" >> $CHEAT_SHEET
-echo "" >> $CHEAT_SHEET
-
-fi
-
-fi # End of exec commands
-;;
-
-esac # End of case statement
-
-    echo "\`\`\`" >>$ CHEATSHEETS 
-    echo "" >$ CHEATSHEETS 
-  done # End of operations loop 
-done # End of resources loop 
-
-# Display the cheat sheet file
-cat $CHEAT_SHEET
+              # Display the cheat sheet file
+              cat $CHEAT_SHEET
