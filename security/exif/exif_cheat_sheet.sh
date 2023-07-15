@@ -4,8 +4,8 @@
 # You also need to know the parameters of the EXIF tags that you want to modify
 # You can find a list of EXIF tags online at https://www.exiv2.org/tags.html
 # or use the taglist sample program provided by Exiv2
-# To run this script, make it executable with chmod +x exif3.sh
-# Then run it with ./exif3.sh
+# To run this script, make it executable with chmod +x exif_modify.sh
+# Then run it with ./exif_modify.sh
 # It will prompt you to enter a picture file name, and then print all the EXIF data from it
 # It will also ask you if you want to modify or delete the EXIF data, and perform the corresponding action based on your input
 
