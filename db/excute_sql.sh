@@ -1,5 +1,4 @@
 #!/bin/bash
-# This script executes SQL files and saves the output
 
 # Variables:
 FOLDER=$1
@@ -14,11 +13,9 @@ if [[ $(id -u) != 0 ]]
   exit
 fi
 
-# If db-name not defined, option for input
 echo "Enter the database name, or press enter to skip:"
 read DB
 
-# Loop into sql folder
 for FILE in $FOLDER/*.sql
 do
   echo $FILE
@@ -55,5 +52,4 @@ do
       chown $USER_ID:$GROUP_ID  *.tsv *.tar.gz
     fi
 done
-# Change owner files
 chown $USER_ID:$GROUP_ID error.log
