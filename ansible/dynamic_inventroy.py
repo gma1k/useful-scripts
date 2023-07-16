@@ -3,14 +3,11 @@
 import json
 import subprocess
 
-# Define the network range to scan
 network = "10.10.7.0/24"
 
-# Run Nmap and get the XML output
 nmap_cmd = f"nmap -oX - -p 22 {network}"
 nmap_output = subprocess.check_output(nmap_cmd, shell=True)
 
-# Parse the XML output and extract the hostnames and IP addresses
 hosts = []
 for line in nmap_output.splitlines():
   line = line.decode("utf-8")
@@ -20,7 +17,6 @@ for line in nmap_output.splitlines():
     ip_address = line.split('"')[1]
     hosts.append((hostname, ip_address))
 
-# Generate the JSON output for Ansible
 inventory = {
   "sftp-server": {
     "hosts": [host[0] for host in hosts],
