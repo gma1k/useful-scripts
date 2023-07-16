@@ -5,7 +5,6 @@ generate_password() {
 }
 
 create_user() {
-  # Check if the user name and group name are provided
   if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: create_user user_name group_name"
     exit 1
@@ -60,24 +59,18 @@ echo "Do you want to create a sudo user or a regular user?"
 select choice in "sudo" "regular" "exit"; do
   case $choice in
     sudo )
-      # Ask for the user name
       read -p "Enter the user name: " user_name
-      # Call the create_sudo_user function
       create_sudo_user "$user_name"
       break;;
     regular )
-      # Ask for the user name and group name
       read -p "Enter the user name: " user_name
       read -p "Enter the group name: " group_name
-      # Call the create_user function
       create_user "$user_name" "$group_name"
       break;;
     exit )
-      # Exit the script
       echo "Bye!"
       exit;;
     * )
-      # Invalid choice
       echo "Invalid choice. Please try again.";;
   esac
 done
