@@ -1,4 +1,3 @@
-# Script to check the health status of Deployment and resources assosiated with it
 #!/bin/bash
 
 # Colors
