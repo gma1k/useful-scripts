@@ -5,7 +5,6 @@
 # Example 2: ./kubectl_list_containers_images.sh to list availble tasks
 # Reference: https://kubernetes.io/docs/tasks/access-application-cluster/list-all-running-container-images/
 
-# Define a usage function
 usage() {
   echo "Usage: $0 [-t task]"
   echo "Available tasks are:"
@@ -16,7 +15,6 @@ usage() {
   exit 1
 }
 
-# Parse options
 while getopts ":t:" opt; do
   case $opt in
     t)
@@ -33,15 +31,12 @@ while getopts ":t:" opt; do
   esac
 done
 
-# Shift the positional parameters to skip options
 shift $((OPTIND-1))
 
-# Check if task is specified
 if [ -z "$task" ]; then
   echo "No task specified. Please choose one of the available tasks."
   usage
 else
-  # Create a menu
   PS3="Please enter your choice: "
   select namespace in "All namespaces" $(kubectl get ns | awk 'NR>1 {print $1}')
   do
@@ -62,14 +57,14 @@ else
   done
 
   case $task in
-    1) # List all Container images
+    1)
       if [ -z "$namespace" ]; then # If namespace is empty
         echo "Listing all container images."
         kubectl get pods -o jsonpath="{.items[*].spec.containers[*].image}" |\
         tr -s '[[:space:]]' '\n' |\
         sort |\
         uniq -c
-      else # If namespace not empty
+      else
         echo "Listing all container images in namespace $namespace."
         kubectl get pods -n $namespace -o jsonpath="{.items[*].spec.containers[*].image}" |\
         tr -s '[[:space:]]' '\n' |\
@@ -78,7 +73,7 @@ else
       fi
       break
       ;;
-    2) # List Container images by Pod
+    2)
       if [ -z "$namespace" ]; then
         echo "Listing container images by pod."
         kubectl get pods -o jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |\
@@ -90,12 +85,11 @@ else
       fi
       break
       ;;
-    3) # List Container images filtering by Pod label
+    3)
       if [ -z "$namespace" ]; then
         echo "No namespace specified. Please choose a namespace first."
         break
       else
-        # List all labels and create a menu for the user to choose one or all labels
         PS3="Please enter your choice: "
         select label in $(kubectl get pods -n $namespace --show-labels | awk 'NR>1 {print $NF}' | awk -F, '{for (i=1;i<=NF;i++) print $i}' | sort | uniq)
         do
@@ -115,11 +109,11 @@ else
       fi
       break
       ;;
-    4) # List Container images filtering by Pod namespace
+    4)
       if [ -z "$namespace" ]; then # If namespace is empty
         echo "No namespace specified. Listing container images filtering by pod namespace."
         kubectl get pods -o jsonpath="{.items[*].spec.containers[*].image}"
-      else # If namespace is not empty
+      else
         echo "Listing container images filtering by pod namespace in namespace $namespace."
         kubectl get pods -n $namespace -o jsonpath="{.items[*].spec.containers[*].image}"
       fi
