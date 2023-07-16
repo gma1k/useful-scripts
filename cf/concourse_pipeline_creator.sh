@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# Ask for the organization name
 echo "Enter the organization name:"
 read org_name
 
-# Ask for the space name
 echo "Enter the space name:"
 read space_name
 
-# Ask for the username
 echo "Enter the username:"
 read username
 
-# Ask for the password
 echo "Enter the password:"
 read -s password
 
-# Ask for the vault name
 echo "Enter the vault name:"
 read vault_name
 
-# Install the Vault CF Auth plugin on the Vault server and enable the cf auth method
 wget https://releases.hashicorp.com/vault-plugin-auth-cf/0.3.0/vault-plugin-auth-cf_0.3.0_linux_amd64.zip
 unzip vault-plugin-auth-cf_0.3.0_linux_amd64.zip
 vault write sys/plugins/catalog/auth/cf \
@@ -31,12 +25,10 @@ vault write auth/cf/config \
     cf_api_addr=https://api.example.com \
     cf_ca_cert=@/path/to/ca/cert.pem
 
-# Create a service account in Cloud Foundry for Vault to use, and give it the appropriate roles and permissions
 cf create-user $vault_name some-password
 cf set-org-role $vault_name $org_name OrgAuditor
 cf set-space-role $vault_name $org_name $space_name SpaceAuditor
 
-# Create a policy in Vault to manage access to your secrets, and associate it with a role that matches your Cloud Foundry organization and space
 cat <<EOF > my-policy.hcl
 path "cf/$org_name/$space_name/*" {
   capabilities = ["read"]
@@ -50,7 +42,7 @@ vault write auth/cf/role/my-role \
     policies=my-policy \
     ttl=1h
 
-# Create a secret engine in Vault to store your username and password credentials, and write them to a path that you can remember
+# Create a secret engine in Vault to store your username and password credentials
 vault secrets enable -path=cf -version=2 kv
 vault kv put cf/$org_name/$space_name username=$username password=$password
 
