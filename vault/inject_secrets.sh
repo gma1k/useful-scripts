@@ -15,7 +15,6 @@ namespace=$3
 AWS_REGION=$4
 AWS_PROFILE=$5
 
-# kubectl client 1.18 introduced some breaking changes with --dry-run
 kubectl_ver=$(kubectl version --client=true -o json | jq -rj '.clientVersion | .major, ".", .minor')
 dry_run_flag="--dry-run"
 if [[ "$ver_major" -gt "1" ]] || [[ "$ver_minor" -gt "17" ]]; then
@@ -26,7 +25,6 @@ echo "Injecting all secrets under ${secret_prefix} from AWS Secrets Manager into
 
 secret_count=0
 
-# iterate through list of all secrets in AWS Secrets Manager for a given prefix
 for secret_name in $(aws secretsmanager list-secrets --profile ${AWS_PROFILE} --region ${AWS_REGION} --query 'SecretList[?Name!=`null`]|[?starts_with(Name, `'${secret_prefix}'`) == `true`].Name' --output text); do
     secret_count=$((secret_count+1))
 
@@ -37,7 +35,6 @@ for secret_name in $(aws secretsmanager list-secrets --profile ${AWS_PROFILE} --
 
     unset k8s_secret_name value
 
-    # make a k8s secrets-friendly name ($service-$secretname)
     echo "secret name: $secret_name"
     k8s_secret_name=$(echo ${secret_name#"$secret_prefix"/} | tr "/_" "-")
     if [[ -z $k8s_secret_name ]]; then
