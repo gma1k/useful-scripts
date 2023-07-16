@@ -1,21 +1,16 @@
 #!/bin/bash
 
-# Valid dockerfile check
 check_input() {
-  # Use a case statement to match the user input with the possible dockerfile instructions
   case $1 in
     FROM|COPY|RUN|CMD)
-      # If the user input is valid, return 0 (success)
       return 0
       ;;
     *)
-      # If the user input is invalid, return 1 (failure)
       return 1
       ;;
   esac
 }
 
-# A function to build a docker image from the dockerfile
 build_image() {
   read -p "Enter the image name: " image_name
   docker build -t $image_name -f Dockerfile .
@@ -33,10 +28,8 @@ build_image() {
   fi
 }
 
-# Create empty dockerfile
 echo "" > Dockerfile
 
-# Ask for HTTP_PROXY value
 read -p "Enter the HTTP_PROXY value or leave empty to skip: " http_proxy
 
 case $http_proxy in
@@ -48,7 +41,6 @@ case $http_proxy in
     ;;
 esac
 
-# HTTPS_PROXY value
 read -p "Enter the HTTPS_PROXY value or leave empty to skip: " https_proxy
 
 case $https_proxy in
@@ -60,7 +52,6 @@ case $https_proxy in
     ;;
 esac
 
-# Dockerfile instructions
 while true; do
   read -p "Enter a dockerfile instruction or 'done' to finish: " instruction
   if [ $instruction = "done" ]; then
