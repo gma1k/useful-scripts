@@ -1,3 +1,5 @@
+#!/bin/bash
+
 login_user() {
   az login
 }
