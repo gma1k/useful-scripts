@@ -30,8 +30,6 @@ ftp_avail=$(convert_kb $ftp_avail_kb)
 # Calculate the percentage
 percentage=$(awk -v u=$user_usage_kb -v f=$ftp_avail_kb 'BEGIN {printf "%.2f", (u / f) * 100}')
 
-# Print output message
 echo "User usage: $user_usage $user_path"
 echo "FTP available space: $ftp_avail $ftp_path"
 echo "Percentage: $percentage%"
-
