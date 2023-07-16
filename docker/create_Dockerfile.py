@@ -4,16 +4,13 @@
 # Optional arguments for HTTP_PROXY and HTTPS_PROXY values
 # Usage: ./create_dockerfile.py --http-proxy http://proxy.example.com:8080 --https-proxy https://proxy.example.com:8080
 
-# Import subprocess and argparse modules
 import subprocess
 import argparse
 
-# A function to check the user input
 def check_input(instruction):
     valid_instructions = ["FROM", "COPY", "RUN", "CMD"]
     return instruction in valid_instructions
 
-# A function to build a docker image from the dockerfile
 def build_image(image_name):
     result = subprocess.run(["docker", "build", "-t", image_name, "-f", "Dockerfile", "."])
     if result.returncode == 0:
@@ -27,31 +24,24 @@ def build_image(image_name):
         else:
             exit(1)
 
-# Create an empty dockerfile
 with open("Dockerfile", "w") as f:
     f.write("")
 
-# Create an argument parser object
 parser = argparse.ArgumentParser(description="Create a dockerfile and build a docker image")
 
-# Add arguments for HTTP_PROXY and HTTPS_PROXY values
 parser.add_argument("--http-proxy", help="set HTTP_PROXY value")
 parser.add_argument("--https-proxy", help="set HTTPS_PROXY value")
 
-# Parse the arguments
 args = parser.parse_args()
 
-# Check if HTTP_PROXY argument is defined
 if args.http_proxy:
     with open("Dockerfile", "a") as f:
         f.write(f"ENV HTTP_PROXY {args.http_proxy}\n")
 
-# Check if HTTPS_PROXY argument is defined
 if args.https_proxy:
     with open("Dockerfile", "a") as f:
         f.write(f"ENV HTTPS_PROXY {args.https_proxy}\n")
 
-# Dockerfile instructions
 while True:
     instruction = input("Enter a dockerfile instruction or 'done' to finish: ")
     if instruction == "done":
