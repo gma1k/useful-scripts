@@ -39,25 +39,18 @@ while true; do
 
   read -p "Enter your choice: " choice
 
-  # Perform different actions
   case $choice in
 
-    # Check all Java versions
     1)
       check_java_version;;
 
-    # Check if an environment is using Java 11 or higher
     2)
-      # Check the Java version
       check_java_version
 
-      # Get the return value of the function
       result=$?
 
-      # Check if the result is 0, which means Java version is 1.8 or higher
       if [[ $result -eq 0 ]]; then
 
-        # Check if the major version is greater than or equal to 11
         if [[ $major -ge 11 ]]; then
           echo "The environment is using Java 11 or higher"
         else
@@ -70,12 +63,10 @@ while true; do
 
       fi;;
 
-    # Exit
     3)
       echo "Exiting..."
       break;;
 
-    # Invalid choice
     *)
       echo "Invalid choice, please try again";;
 
