@@ -1,10 +1,10 @@
-# This file contains service principal credentials
+#!/bin/bash
 
 # Set a resource group
 rg=MyResourceGroup
 
 # Set a username
-un=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+un=xxxxxxxx
 
 # Set a password
 pw=MyPassword
