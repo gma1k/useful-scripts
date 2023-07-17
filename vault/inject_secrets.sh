@@ -55,7 +55,6 @@ for secret_name in $(aws secretsmanager list-secrets --profile ${AWS_PROFILE} --
         fi
         printf "%-70s %s\n" ${secret_name} ${k8s_secret_name}
 
-        # this is currently the best method to "upsert" a secret, other than deleting and recreating it.
         kubectl create secret generic ${k8s_secret_name} --from-literal=password=${value} -n ${namespace} ${dry_run_flag} -o yaml | kubectl apply -f - > /dev/null
     fi
 done
