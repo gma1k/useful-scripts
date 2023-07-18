@@ -293,12 +293,7 @@ show_space_menu() {
     echo "Invalid option"  
     exit  
   fi  
-  echo "Do you want to delete an app? (y/n): "
-  read answer
-  if [[ $answer == y || $answer == Y ]]; then
-     delete_app
-  fi
-}
+  }
 
 show_main_menu() {
    echo "Please select an option:"
