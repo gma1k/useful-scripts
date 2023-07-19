@@ -2,4 +2,4 @@
 
 
 # scripts
-some useful scripts, playbooks & utilities
+some useful scripts
