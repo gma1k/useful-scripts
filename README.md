@@ -7,26 +7,18 @@ A repository of useful scripts
 ## Table of Contents
 
 - [Technologies](#technologies)
-- [Features](#features)
 - [Usage](#usage)
 - [License](#license)
 
 ## Technologies
 
+- Linux
 - Bash
 - Python
 - PowerShell
 - Python
 - Perl
 - NodeJS
-
-## Features
-
-- **Linux**
-- **docker**
-- **Azure**
-- **PowerShell**
-- **Tests**
 
 ## Usage
 Can be executed directly from the command line.
