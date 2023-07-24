@@ -9,8 +9,10 @@ check_sftp_logs() {
   read start_time
   echo "Enter the end time in HH:MM:SS format:"
   read end_time
+  echo "Enter the username (leave blank for all users):"
+  read username
 
-  awk -v start_date="$start_date" -v end_date="$end_date" -v start_time="$start_time" -v end_time="$end_time" '
+  awk -v start_date="$start_date" -v end_date="$end_date" -v start_time="$start_time" -v end_time="$end_time" -v username="$username" '
     BEGIN {
       start_epoch = mktime(gensub(/-/, " ", "g", start_date) " 0 0 0")
       end_epoch = mktime(gensub(/-/, " ", "g", end_date) " 0 0 0")
@@ -24,7 +26,9 @@ check_sftp_logs() {
       split($2, lt, ":")
       log_sec = lt[1] * 3600 + lt[2] * 60 + lt[3]
       if (log_epoch >= start_epoch && log_epoch <= end_epoch && log_sec >= start_sec && log_sec <= end_sec && $0 ~ /sftp-server/) {
-        print
+        if (username == "" || $9 == username) {
+          print
+        }
       }
     }
   ' /var/log/auth.log
