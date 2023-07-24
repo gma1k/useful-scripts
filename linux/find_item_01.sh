@@ -9,7 +9,6 @@ find_item() {
   fi
   echo "Enter the item name or part of the name:"
   read item_name
-  # Validate the item name
   if [ -z "$item_name" ]; then
     echo "Item name cannot be empty."
     exit 1
