@@ -2,9 +2,9 @@
 
 function log_search() {
   echo "Choose an option:"
-  echo "1) Search for errors in log files"
-  echo "2) Search for warnings in log files"
-  echo "3) Search for both errors and warnings in log files"
+  echo "1) Errors"
+  echo "2) Warnings"
+  echo "3) Both"
   echo "4) Quit"
 
   read -p "Enter your choice: " choice
