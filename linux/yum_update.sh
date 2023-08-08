@@ -14,12 +14,9 @@ exclude_packages () {
   do
     sudo yum versionlock add "$package" || { echo "Failed to mark $package as held back" >&2; exit 5; }
   done
-
   echo "The following packages will be excluded from being upgraded: $*"
 }
-
 read -p "Enter the names of the packages you want to exclude from being upgraded (separated by space): " -a exclude
-
 exclude_packages "${exclude[@]}"
 
 read -r -p "Do you want to update and upgrade your system? (y/n): " answer
