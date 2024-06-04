@@ -16,7 +16,6 @@ A repository of useful scripts
 - Bash
 - Python
 - PowerShell
-- Python
 - Perl
 - NodeJS
 
