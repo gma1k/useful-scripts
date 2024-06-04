@@ -32,10 +32,5 @@ cd scripts
 
 [MIT](LICENSE)
 
-
-
-
-
-
 # scripts
 some useful scripts
