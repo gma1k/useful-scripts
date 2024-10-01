@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-# Get detailed current weather
+# Get the current weather
 get_current_weather() {
     local city=$1
     city="${city// /%20}"
