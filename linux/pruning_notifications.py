@@ -3,7 +3,7 @@
 import requests
 from datetime import datetime
 
-# Define the Slack webhook URL
+# Define a Slack webhook URL
 SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 
 # Tree pruning periods
@@ -40,7 +40,6 @@ def check_pruning_times():
     else:
         message = "No plants need pruning this month."
 
-    # Send the message to Slack
     send_slack_notification(message)
 
 if __name__ == "__main__":
