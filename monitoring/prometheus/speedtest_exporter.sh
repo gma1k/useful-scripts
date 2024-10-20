@@ -1,44 +1,45 @@
 #!/bin/bash
 set -eu
 
+# Define the Prometheus metrics as variables
+DOWNLOAD_METRIC="speedtest_download_mbps"
+UPLOAD_METRIC="speedtest_upload_mbps"
+PING_METRIC="speedtest_ping_latency_ms"
+
 # Run Speedtest and get results in JSON format
 run_speedtest() {
-    echo "Running speedtest..."
-    speedtest_output=$(speedtest --json)
+    if ! command -v speedtest &> /dev/null; then
+        echo "Error: speedtest CLI not found"
+        exit 1
+    fi
+
+    speedtest_output=$(speedtest --json 2>/dev/null) || {
+        echo "Error: failed to run speedtest"
+        exit 1
+    }
 }
 
 # Parse Speedtest results
 parse_speedtest_results() {
-    echo "Parsing speedtest results..."
-
-    # Extract speeds in Mbps
-    download_speed=$(echo "$speedtest_output" | jq '.download / 1000000')
-    upload_speed=$(echo "$speedtest_output" | jq '.upload / 1000000')
-
-    # Extract ping latency
-    ping_latency=$(echo "$speedtest_output" | jq '.ping')
-    
-    # Format speeds to two decimal places
-    download_speed=$(printf "%.2f" "$download_speed")
-    upload_speed=$(printf "%.2f" "$upload_speed")
+    download_speed=$(echo "$speedtest_output" | jq '.download / 1000000 | ( . * 100 + 0.5 | floor) / 100')
+    upload_speed=$(echo "$speedtest_output" | jq '.upload / 1000000 | ( . * 100 + 0.5 | floor) / 100')
+    ping_latency=$(echo "$speedtest_output" | jq '.ping | ( . * 1000 + 0.5 | floor) / 1000')
 }
 
 # Expose the results in Prometheus format
 expose_metrics() {
-    echo "Exposing metrics..."
-
     cat <<EOF
-# HELP speedtest_download_mbps Download speed in Mbps
-# TYPE speedtest_download_mbps gauge
-speedtest_download_mbps $download_speed
+# HELP $DOWNLOAD_METRIC Download speed in Mbps
+# TYPE $DOWNLOAD_METRIC gauge
+$DOWNLOAD_METRIC $download_speed
 
-# HELP speedtest_upload_mbps Upload speed in Mbps
-# TYPE speedtest_upload_mbps gauge
-speedtest_upload_mbps $upload_speed
+# HELP $UPLOAD_METRIC Upload speed in Mbps
+# TYPE $UPLOAD_METRIC gauge
+$UPLOAD_METRIC $upload_speed
 
-# HELP speedtest_ping_latency_ms Ping latency in milliseconds
-# TYPE speedtest_ping_latency_ms gauge
-speedtest_ping_latency_ms $ping_latency
+# HELP $PING_METRIC Ping latency in milliseconds
+# TYPE $PING_METRIC gauge
+$PING_METRIC $ping_latency
 EOF
 }
 
