@@ -4,7 +4,7 @@
 | ------------- | ------------- | ------------- |
 | Grafana  | 256MB  | 50%  |
 | Prometheus  | 512MB  | 100%  |
-| Node Exporter  | 64MB  | 20%  |
+| Node Exporter  | 64MB  | 10%  |
 | Alloy  | 128MB  | 50%  |
 | Beyla  | 256MB  | 50%  |
 | Loki  | 256MB  | 50%  |
