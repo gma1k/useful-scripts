@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create limits groups
+# Create resource control groups
 sudo cgcreate -g cpu,memory:/monitoring/grafana
 sudo cgcreate -g cpu,memory:/monitoring/prometheus
 sudo cgcreate -g cpu,memory:/monitoring/node_exporter
