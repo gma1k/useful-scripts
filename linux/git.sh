@@ -43,7 +43,7 @@ git_push() {
 }
 
 # Main script
-echo "Starting the git automation script..."
+echo "Start pushing to the git repository..."
 
 git_add
 git_commit
