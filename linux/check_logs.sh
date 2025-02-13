@@ -1,4 +1,10 @@
 #!/bin/bash
+set -eu
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run with sudo." >&2
+    exit 1
+fi
 
 function log_search() {
   echo "Choose an option:"
