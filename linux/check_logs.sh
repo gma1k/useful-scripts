@@ -36,7 +36,7 @@ function log_search() {
       if [ -d "$dir_path" ]; then        
         read -p "Enter the keyword to grep on: " keyword        
         find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do          
-          # Check if the file is zipped or not          
+
           if [[ $file == *.gz ]]; then            
             zgrep -iE "warning.*$keyword|$keyword.*warning" "$file"          
           else            
