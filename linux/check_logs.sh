@@ -6,70 +6,42 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-function log_search() {
-  echo "Choose an option:"
-  echo "1) Errors"
-  echo "2) Warnings"
-  echo "3) Both"
-  echo "4) Quit"
-
-  read -p "Enter your choice: " choice
-
-  case $choice in
-    1)
-      read -p "Enter the directory path of the log files: " dir_path
-      if [ -d "$dir_path" ]; then
+# Display logs based on the log type (error or warning)
+show_logs() {
+    local log_type=$1
+    read -p "Enter the directory path of the log files: " dir_path
+    if [ -d "$dir_path" ]; then
         read -p "Enter the keyword to grep on: " keyword
         find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do
-          if [[ $file == *.gz ]]; then
-            zgrep -iE "error.*$keyword|$keyword.*error" "$file"
-          else
-            grep -iE "error.*$keyword|$keyword.*error" "$file"
-          fi          
-        done        
-      else        
+            if [[ $file == *.gz ]]; then
+                zgrep -iE "$log_type.*$keyword|$keyword.*$log_type" "$file"
+            else
+                grep -iE "$log_type.*$keyword|$keyword.*$log_type" "$file"
+            fi
+        done
+    else
         echo "$dir_path is not a valid directory path or does not exist"
-      fi      
-      ;;
-    2)
-      read -p "Enter the directory path of the log files: " dir_path
-      if [ -d "$dir_path" ]; then        
-        read -p "Enter the keyword to grep on: " keyword        
-        find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do
-          if [[ $file == *.gz ]]; then            
-            zgrep -iE "warning.*$keyword|$keyword.*warning" "$file"          
-          else            
-            grep -iE "warning.*$keyword|$keyword.*warning" "$file"          
-          fi          
-        done        
-      else        
-        echo "$dir_path is not a valid directory path or does not exist"      
-      fi      
-      ;;
-    3) 
-      read -p "Enter the directory path of the log files: " dir_path      
-      if [ -d "$dir_path" ]; then        
-        read -p "Enter the keyword to grep on: " keyword        
-        find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do          
-          if [[ $file == *.gz ]]; then            
-            zgrep -iE "(error|warning).*$keyword|$keyword.*(error|warning)" "$file"          
-          else            
-            grep -iE "(error|warning).*$keyword|$keyword.*(error|warning)" "$file"          
-          fi          
-        done        
-      else        
-        echo "$dir_path is not a valid directory path or does not exist"      
-      fi      
-      ;;
-    4)
-      echo "Bye!"      
-      exit 0      
-      ;;
-    *)
-      echo "Invalid choice, please try again"      
-      log_search      
-      ;;
-  esac  
+    fi
 }
 
-log_search
+# Main menu
+echo "Please select an option:"
+echo "1. Show Error Logs"
+echo "2. Show Warning Logs"
+echo "3. Quit"
+read -p "Enter your choice (1/2/3): " choice
+
+case $choice in
+    1)
+        show_logs "error"
+        ;;
+    2)
+        show_logs "warning"
+        ;;
+    3)
+        echo "Exiting the script."
+        ;;
+    *)
+        echo "Invalid choice. Exiting the script."
+        ;;
+esac
