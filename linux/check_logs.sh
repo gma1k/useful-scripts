@@ -32,11 +32,10 @@ function log_search() {
       fi      
       ;;
     2)
-      read -p "Enter the directory path of the log files: " dir_path      
+      read -p "Enter the directory path of the log files: " dir_path
       if [ -d "$dir_path" ]; then        
         read -p "Enter the keyword to grep on: " keyword        
-        find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do          
-
+        find "$dir_path" -type f \( -name "*.log" -o -name "*.log.gz" \) | while read file; do
           if [[ $file == *.gz ]]; then            
             zgrep -iE "warning.*$keyword|$keyword.*warning" "$file"          
           else            
