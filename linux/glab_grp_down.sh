@@ -2,8 +2,8 @@
 set -eu
 
 clone_top_level_group_repos() {
-  read -rp "Enter the GitLab group name: " GROUP_NAME
-  read -rp "Enter your GitLab hostname: " GITLAB_HOST
+  read -rp "Enter the GitLab group name (e.g. grpname): " GROUP_NAME
+  read -rp "Enter your GitLab hostname (e.g. gitlab.host.com): " GITLAB_HOST
 
   CLONE_DIR="./$GROUP_NAME"
   mkdir -p "$CLONE_DIR"
