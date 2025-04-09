@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu
 
 clone_group_repos() {
   read -rp "Enter the full GitLab group path (e.g. grp/subgrp): " RAW_GROUP
