@@ -27,21 +27,19 @@ start_time = time.time()
 try:
     while True:
         current_time = time.time()
-        if current_time - start_time > 15:  # Now run only for 15 seconds
+        if current_time - start_time > 15:
             break
         try:
-            # Get trace output
             (task, pid, cpu, flags, ts, msg) = b.trace_fields(nonblocking=True)
             if msg is None:
-                time.sleep(0.01)  # If no message, wait a tiny bit
+                time.sleep(0.01)
                 continue
-            # Split the message into PID and command
             fields = msg.strip().split(b' ', 1)
             if len(fields) != 2:
-                continue  # Skip if unexpected format
+                continue
             pid_str, comm = fields
             print(f"{int(pid_str):<8d} {comm.decode('utf-8'):<16s}")
-            time.sleep(0.1)  # Slight delay to slow down output
+            time.sleep(0.1)
         except ValueError:
             continue
 except KeyboardInterrupt:
