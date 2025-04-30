@@ -68,7 +68,6 @@ try:
 
         conns_by_process = defaultdict(list)
         for k, v in b["active_conns"].items():
-            # Skip invalid entries
             if v.sport == 0 and v.dport == 0:
                 continue
                 
