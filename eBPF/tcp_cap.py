@@ -5,7 +5,6 @@ from socket import inet_ntop, AF_INET
 from struct import pack
 import ctypes
 
-# eBPF program in C
 bpf_program = """
 #include <uapi/linux/ptrace.h>
 #include <net/sock.h>
@@ -23,7 +22,6 @@ struct data_t {
 
 BPF_PERF_OUTPUT(events);
 
-// hook tcp connect syscall
 int trace_connect(struct pt_regs *ctx, struct sock *sk) {
     u16 family = sk->__sk_common.skc_family;
     if (family == AF_INET) {
@@ -41,11 +39,9 @@ int trace_connect(struct pt_regs *ctx, struct sock *sk) {
 }
 """
 
-# Load and attach BPF program
 b = BPF(text=bpf_program)
 b.attach_kprobe(event="tcp_connect", fn_name="trace_connect")
 
-# Define output structure in Python
 class Data(ctypes.Structure):
     _fields_ = [
         ("pid", ctypes.c_uint),
