@@ -20,15 +20,23 @@ int trace_system(struct pt_regs *ctx) {
 b = BPF(text=bpf_program)
 b.attach_uprobe(name=libc_path, sym="system", fn_name="trace_system")
 
-print("\n Monitoring suspicious command executions via system()")
-print(f" Tracing libc's system() function in: {libc_path}")
-print(" Press Ctrl+C to stop.\n")
+def resolve_process_name(pid, fallback=b'<...>'):
+    try:
+        with open(f"/proc/{pid}/comm") as f:
+            return f.read().strip()
+    except Exception:
+        return fallback.decode() if isinstance(fallback, bytes) else fallback
+
+print("\nMonitoring calls to system() via libc.")
+print(f"Tracing system() in: {libc_path}")
+print("Press Ctrl+C to stop.\n")
 print("%-18s %-16s %-6s %s" % ("TIME(s)", "PROCESS", "PID", "DETAILS"))
 
 while True:
     try:
         (task, pid, cpu, flags, ts, msg) = b.trace_fields()
-        print("%-18.9f %-16s %-6d %s" % (ts, task, pid, msg))
+        resolved_task = resolve_process_name(pid, task)
+        print("%-18.9f %-16s %-6d %s" % (ts, resolved_task, pid, msg))
     except KeyboardInterrupt:
-        print("\n Exiting monitoring.")
+        print("\nStopped monitoring.")
         break
