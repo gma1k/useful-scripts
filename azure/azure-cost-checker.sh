@@ -21,7 +21,7 @@ show_menu() {
     echo " Azure Cost Usage Menu"
     echo "========================="
     echo "1. Get total cost for a subscription"
-    echo "2. Get cost breakdown by location"
+    echo "2. Get cost by location"
     echo "3. Exit"
 }
 
