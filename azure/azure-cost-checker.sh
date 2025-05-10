@@ -27,29 +27,24 @@ show_menu() {
 
 main() {
     ask_subscription
+    show_menu
+    read -rp "Choose an option [1-3]: " choice
 
-    while true; do
-        show_menu
-        read -rp "Choose an option [1-3]: " choice
-
-        case $choice in
-            1)
-                total_cost
-                ;;
-            2)
-                cost_by_location
-                ;;
-            3)
-                echo "Goodbye!"
-                exit 0
-                ;;
-            *)
-                echo "Invalid option. Please try again."
-                ;;
-        esac
-
-        echo ""
-    done
+    case $choice in
+        1)
+            total_cost
+            ;;
+        2)
+            cost_by_location
+            ;;
+        3)
+            echo "Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid option. Please try again."
+            ;;
+    esac
 }
 
 main
