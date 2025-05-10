@@ -16,7 +16,6 @@ int trace_setgid(struct pt_regs *ctx, gid_t gid) {
 
 b = BPF(text=program)
 
-# Use working syscalls for 64-bit
 b.attach_kprobe(event="__x64_sys_setuid", fn_name="trace_setuid")
 b.attach_kprobe(event="__x64_sys_setgid", fn_name="trace_setgid")
 
