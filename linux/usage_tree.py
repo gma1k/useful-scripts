@@ -9,7 +9,6 @@ from rich.tree import Tree
 from rich.console import Console
 from rich.progress import Progress
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 console = Console()
 
