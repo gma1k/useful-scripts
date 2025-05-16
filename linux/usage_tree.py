@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#Usage: python3 usage_tree.py /home --depth 3 
+# Usage Example: python3 usage_tree.py /home --depth 3 
 
 import os
 import shutil
