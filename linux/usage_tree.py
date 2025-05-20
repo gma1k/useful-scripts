@@ -16,15 +16,6 @@ console = Console()
 
 
 def get_dir_size(path: str) -> int:
-    """
-    Recursively calculates the size of a directory or file.
-    
-    Args:
-        path (str): The path to the file or directory.
-        
-    Returns:
-        int: Total size in bytes.
-    """
     total_size = 0
     try:
         if os.path.isfile(path):
@@ -44,18 +35,6 @@ def get_dir_size(path: str) -> int:
 
 
 def add_to_tree(tree: Tree, path: str, max_depth: int, current_depth: int = 0) -> Tuple[Tree, int]:
-    """
-    Recursively adds files and folders to the rich tree with their sizes.
-    
-    Args:
-        tree (Tree): Current rich.tree.Tree node.
-        path (str): Path of the current directory.
-        max_depth (int): Maximum depth to display.
-        current_depth (int): Current depth in recursion.
-    
-    Returns:
-        Tuple[Tree, int]: The updated tree and total size.
-    """
     total_size = 0
     try:
         entries = os.listdir(path)
@@ -82,15 +61,6 @@ def add_to_tree(tree: Tree, path: str, max_depth: int, current_depth: int = 0) -
 
 
 def human_readable_size(size: int) -> str:
-    """
-    Convert bytes to human-readable format.
-    
-    Args:
-        size (int): Size in bytes.
-        
-    Returns:
-        str: Human-readable size.
-    """
     for unit in ["B", "KB", "MB", "GB", "TB"]:
         if size < 1024:
             return f"{size:.1f}{unit}"
