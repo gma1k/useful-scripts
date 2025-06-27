@@ -25,7 +25,6 @@ TRACEPOINT_PROBE(block, block_rq_issue) {
 
     u64 bytes = args->bytes;
 
-    // Check if it's a read or write operation
     if (args->rwbs[0] == 'R') {
         u64 *val, zero = 0;
         val = read_bytes.lookup_or_init(&pid, &zero);
