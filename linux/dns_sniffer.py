@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
 
-from scapy.all import sniff, DNS, DNSQR, IP
+from scapy.all import sniff, DNS, DNSQR, IP, get_if_list
 import sys
 
 def detect_iface():
-    if len(sys.argv) > 1:
-        return sys.argv[1]
-    return "enp4s0"
+    interfaces = get_if_list()
+
+    if not interfaces:
+        print("Error: No network interfaces found.")
+        sys.exit(1)
+
+    for iface in interfaces:
+        if iface != "lo":
+            return iface
+
+    return interfaces[0]
+
 
 iface = detect_iface()
 print(f"[+] Listening for DNS traffic on {iface}")
+
 
 def handle_packet(pkt):
     if pkt.haslayer(DNS) and pkt.haslayer(DNSQR):
@@ -31,6 +41,7 @@ def handle_packet(pkt):
         qtype_str = qtype_map.get(qtype, str(qtype))
 
         print(f"[DNS] {ip} -> {qname} (QTYPE {qtype_str})")
+
 
 if __name__ == "__main__":
     sniff(
