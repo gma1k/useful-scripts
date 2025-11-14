@@ -13,13 +13,10 @@ def detect_iface():
     for iface in active:
         if iface.name != "lo":
             return iface.name
-
     sys.exit(1)
-
 
 iface = detect_iface()
 print(f"[+] Listening for DNS traffic on {iface}")
-
 
 def handle_packet(pkt):
     if pkt.haslayer(DNS) and pkt.haslayer(DNSQR):
@@ -42,11 +39,9 @@ def handle_packet(pkt):
 
         print(f"[DNS] {ip} -> {qname} (QTYPE {qtype_str})")
 
-
 if __name__ == "__main__":
     sniff(
         iface=iface,
-        filter="udp port 53",
         prn=handle_packet,
         store=False
     )
