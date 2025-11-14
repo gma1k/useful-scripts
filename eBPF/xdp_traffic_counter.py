@@ -17,7 +17,7 @@ program = r"""
 #include <uapi/linux/ip.h>
 #include <uapi/linux/udp.h>
 #include <uapi/linux/tcp.h>
-#include <linux/icmp.h>   // <-- FIXED HEADER
+#include <linux/icmp.h>
 #include <linux/in.h>
 
 BPF_HASH(counter, u32, u64);
