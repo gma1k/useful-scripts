@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-from scapy.all import sniff, DNS, DNSQR, IP, get_if_list
+from scapy.all import sniff, DNS, DNSQR, IP, get_working_ifaces
 import sys
 
 def detect_iface():
-    interfaces = get_if_list()
+    active = get_working_ifaces()
 
-    if not interfaces:
-        print("Error: No network interfaces found.")
+    if not active:
+        print("Error: No active network interfaces found.")
         sys.exit(1)
 
-    for iface in interfaces:
-        if iface != "lo":
-            return iface
+    for iface in active:
+        if iface.name != "lo":
+            return iface.name
 
-    return interfaces[0]
+    sys.exit(1)
 
 
 iface = detect_iface()
