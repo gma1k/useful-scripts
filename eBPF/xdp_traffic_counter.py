@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from bcc import BPF
 from ctypes import c_uint
 import time, os, sys
@@ -38,7 +39,7 @@ int xdp_count(struct xdp_md *ctx)
     void *data     = (void *)(long)ctx->data;
     void *data_end = (void *)(long)ctx->data_end;
 
-    incr(0); // total packets
+    incr(0);
 
     struct ethhdr *eth = data;
     if ((void*)eth + sizeof(*eth) > data_end)
