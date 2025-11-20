@@ -12,6 +12,7 @@ def detect_iface():
 
     for iface in active:
         if iface.name != "lo":
+            print("Skipping loopback interface")
             return iface.name
     sys.exit(1)
 
