@@ -7,7 +7,6 @@ A collection of useful scripts for performing various penetration testing tasks,
 
 - [Technologies](#technologies)
 - [Features](#features)
-- [Usage](#usage)
 - [License](#license)
 - [Attacks scripts](attacks/)
 - [Scans scripts](scans/)
@@ -25,16 +24,6 @@ A collection of useful scripts for performing various penetration testing tasks,
 - **Bash and python**: The scripts are written in bash and python, two popular and powerful scripting languages for penetration testing.
 - **Easy to use**: The scripts are designed to be simple and intuitive to use, with clear instructions and options.
 - **Modular and customizable**: The scripts are modular and can be combined or modified to suit your needs and preferences.
-
-## Usage
-
-Use Kali Linux
-https://www.kali.org/get-kali/ 
-
-```
-git clone https://github.com/gma1k/penetration-testing.git
-cd penetration-testing
-````
 
 ## License
 
