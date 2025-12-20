@@ -1,0 +1,20 @@
+intitle:"Kubernetes Dashboard" inurl:dashboard
+intext:"kubernetes.io/ingress.class" ext:yaml
+filetype:json "kind": "Secret"
+inurl:api/v1/namespaces/kubernetes-dashboard ext:json
+site:k8s.io intitle:"Index of /"
+intext:"kubernetes.io/service-account.token" ext:json
+intitle:"Kubernetes Cluster Overview" inurl:grafana
+filetype:yaml "kind": "Deployment"
+inurl:api/v1/nodes ext:json
+site:kubernetes.io intext:"kubectl cheat sheet"
+filetype:yaml "kind": "ConfigMap"
+filetype:json "etcdserver.crt"
+inurl:api/v1/networkpolicies ext:json
+intitle:"Kubernetes Ingress Controller" inurl:healthz
+intext:"kubernetes.io/egress-bandwidth" ext:yaml
+intext:"kubernetes.io/tls-acme" ext:yaml
+intitle:"Prometheus Time Series Collection and Processing Server" inurl:prometheus
+filetype:json "kind": "Service"
+inurl:api/v1/pods ext:json
+site:kubernetes.io intext:"kubectl apply"
