@@ -1,7 +1,5 @@
 # Penetration testing
 
-![image](https://github.com/gma1k/penetration-testing/assets/138721734/2965ebea-0ea8-4a0e-923d-a5d2a2f56a1d)
-
 A collection of useful scripts for performing various penetration testing tasks, such as scanning, enumeration, exploitation, post-exploitation, etc. These scripts are written in bash, python and ruby and can help you automate and speed up your penetration testing process. They can also serve as a reference or a learning resource for aspiring penetration testers.
 
 
