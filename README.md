@@ -13,8 +13,10 @@ A repository of useful scripts
 ## Technologies
 
 - Linux
+- C
 - Bash
 - Python
+- Ruby
 - PowerShell
 - Perl
 - NodeJS
