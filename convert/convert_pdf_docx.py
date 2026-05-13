@@ -33,7 +33,7 @@ for page_number in range(len(pdf)):
         image.save(tmp_path)
         doc.add_picture(tmp_path, width=Inches(5))
         image.close()
-        os.remove(tmp_path)  # <-- works now
+        os.remove(tmp_path)
 
 doc.save(docx_path)
 print(f"PDF successfully converted to {docx_path}")
